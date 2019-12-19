@@ -10,9 +10,9 @@ k  = robot.k;
 % Stiffness = k(1)/(norm(r)^3) * ...
 % ( norm(r) * (r*r') + (norm(r) - ro(1)) * (norm(r)^2 *eye(2) - r*r'));
 
-S1 = getStiffness(r, k(1), ro(1));
-S2 = getStiffness(r, k(2), ro(2));
-S3 = getStiffness(r, k(3), ro(3));
+S1 = getStiffness(r, robot.r1, k(1), ro(1));
+S2 = getStiffness(r, robot.r2, k(2), ro(2));
+S3 = getStiffness(r, robot.r3, k(3), ro(3));
 
 S = S1 + S2 + S3;
 S = simplify(S);
@@ -34,9 +34,12 @@ matlabFunction(tensor_K_r,  'File', 'g_tensor_K_r',   'Vars', {r, ro});
 matlabFunction(tensor_K_ro, 'File', 'g_tensor_K_ro',  'Vars', {r, ro});
 matlabFunction(vS_0,        'File', 'g_vS_0',         'Vars', {r, ro});
 
-function S = getStiffness(r, k, ro)
-S = -k/(norm(r)^3) * ...
-( norm(r) * (r*r') + (norm(r) - ro) * (norm(r)^2 *eye(2) - r*r'));
+function S = getStiffness(r, r1, k, ro)
+
+x = r1 - r;
+
+S = k/(norm(x)^3) * ...
+( norm(x) * (x*x') + (norm(x) - ro) * (norm(x)^2 *eye(2) - x*x') );
 S = simplify(S);
 end
 
