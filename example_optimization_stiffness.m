@@ -5,11 +5,12 @@ k  = robot.k;
 
 %get linearization point 
 % r_init = [robot.initial_state(1); robot.initial_state(2)];
-r_init = [0.05; 0.05];
+r_init = [0.0000001; 0.0000001];
 ro_init = robot.ro;
 
 S0 = g_S(r_init, ro_init);
-dS = eye(2)*2;
+dS = [1 0 
+      0 -1]*5;
 S_desired = S0 + dS;
 vS_desired = reshape_stiffness(S_desired);
 
@@ -55,5 +56,8 @@ cvx_begin
 cvx_end
 
 S = reshape_stiffness_back(vS);
+disp(['Init stiffness: ', mat2str(S0)])
+disp(['Desired stiffness: ', mat2str(S_desired)])
 disp(['Found stiffness: ', mat2str(S)])
+disp(['Real stiffness: ', mat2str(g_S(r, ro))])
 

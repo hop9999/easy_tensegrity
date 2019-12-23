@@ -2,7 +2,7 @@ function robot = get_robot()
 
 robot.m = 1;
 
-robot.ro = [0.1; 0.1; 0.1];
+robot.ro = [0.0; 0.0; 0.0];
 robot.k = [10,10,10];
 robot.b = eye(2);
 
